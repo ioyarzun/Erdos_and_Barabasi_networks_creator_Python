@@ -1,0 +1,120 @@
+---
+title: "Untitled"
+output: html_document
+---
+
+```{r}
+library(igraph)
+```
+```{r}
+erdos0.001=read.graph("1200_0.001_Erdös-Rényi_network.net", format="pajek")
+erdos0.02=read.graph("1200_0.02_Erdös-Rényi_network.net", format="pajek")
+bara1=read.graph("1200_1_Barabási-Albert_network.net", format="pajek")
+bara2=read.graph("1200_2_Barabási-Albert_network.net", format="pajek")
+```
+
+
+##Erdös-Renyi
+Erdos 0.001
+```{r}
+plot(erdos0.001, vertex.label=NA, vertex.size=5)
+plot(erdos0.001, vertex.label=NA, vertex.size=5,layout=layout_with_kk(erdos0.001))
+plot(erdos0.001, vertex.label=NA, vertex.size=5,layout=layout_with_fr(erdos0.001))
+```
+3. Write a report that analyses the generated networks
+● The distribution of component sizes
+● The average path length
+● The degree distribution
+● The distribution of betweenness centralities
+```{r}
+is.connected(erdos0.001)
+barplot(table(components(erdos0.001)$csize), xlab="Component size", ylab="Number of components")
+components(erdos0.001)$csize
+average.path.length(erdos0.001)
+graph.density(erdos0.001)
+plot(degree.distribution(erdos0.001), main="Degree distribution", xlab="Degree", ylab="Relative frequency")
+plot(betweenness(erdos0.001, normalized = T), main = "Betweenness plot", xlab="Node index", ylab="Normalized betwenness")
+hist(closeness(erdos0.001, normalized = T), breaks = 200, main=NA)
+ 
+# Change palette
+cols <- colorRampPalette(c("white","blue"))(length(unique(as.integer(betweenness(erdos0.001,normalized = TRUE)*1000))))
+plot(erdos0.001,vertex.label=NA,vertex.size=degree(erdos0.001)*2+3, vertex.color= cols[betweenness(erdos0.001,normalized = TRUE)*1000])
+```
+
+
+
+
+
+Erdos 0.02
+```{r}
+plot(erdos0.02, vertex.label=NA, vertex.size=5)
+plot(erdos0.02, vertex.label=NA, vertex.size=5,layout=layout_with_kk(erdos0.02))
+plot(erdos0.02, vertex.label=NA, vertex.size=5,layout=layout_with_fr(erdos0.02))
+```
+
+```{r}
+is.connected(erdos0.02)
+components(erdos0.02)$csize
+average.path.length(erdos0.02)
+graph.density(erdos0.02)
+plot(degree.distribution(erdos0.02), main="Degree distribution", xlab="Degree", ylab="Relative frequency")
+hist(degree(erdos0.02), breaks=100, main="Degree distribution", xlab="Degree", ylab="Frequency")
+plot(betweenness(erdos0.02, normalized = T),main = "Betweenness plot", xlab="Node index", ylab="Normalized betwenness")
+hist(closeness(erdos0.02, normalized = T), breaks = 200, main=NA)
+
+cols <- colorRampPalette(c("white","blue"))(length(unique(as.integer(betweenness(erdos0.02,normalized = TRUE)*10000))))
+plot(erdos0.02,vertex.label=NA,vertex.size=degree(erdos0.02)*0.2, vertex.color= cols[betweenness(erdos0.02,normalized = TRUE)*10000])
+```
+
+
+
+
+
+
+
+#Barabási-Albert
+barabasi 1
+```{r}
+plot(bara1, vertex.label=NA, vertex.size=5)
+plot(bara1, vertex.label=NA, vertex.size=5,layout=layout_with_kk(bara1))
+plot(bara1, vertex.label=NA, vertex.size=5,layout=layout_with_fr(bara1))
+```
+
+```{r}
+components(bara1)$csize
+average.path.length(bara1)
+plot(degree.distribution(bara1), main="Degree distribution", xlab="Degree", ylab="Relative frequency")
+hist(degree(bara1), breaks=100, main="Degree distribution", xlab="Degree", ylab="Frequency")
+plot(betweenness(bara1, normalized = T), main = "Betweenness plot", xlab="Node index", ylab="Normalized betwenness")
+hist(closeness(bara1, normalized = T), breaks = 200, main=NA)
+
+cols <- colorRampPalette(c("white","blue"))(length(unique(as.integer(betweenness(bara1,normalized = TRUE)*1000))))
+plot(bara1,vertex.label=NA,vertex.size=degree(bara1)*2, vertex.color= cols[betweenness(bara1,normalized = TRUE)*1000],layout=layout_with_kk(bara1))
+```
+
+
+
+
+barabasi 2
+```{r}
+plot(bara2, vertex.label=NA, vertex.size=5)
+plot(bara2, vertex.label=NA, vertex.size=5,layout=layout_with_kk(bara2))
+plot(bara2, vertex.label=NA, vertex.size=5,layout=layout_with_fr(bara2))
+```
+
+```{r}
+components(bara2)$csize
+average.path.length(bara2)
+plot(degree.distribution(bara2), main="Degree distribution", xlab="Degree", ylab="Relative frequency")
+hist(degree(bara2), breaks=100, main="Degree distribution", xlab="Degree", ylab="Frequency")
+plot(betweenness(bara2, normalized = T), main = "Betweenness plot", xlab="Node index", ylab="Normalized betwenness")
+hist(closeness(bara2, normalized = T), breaks = 200, main=NA)
+
+cols <- colorRampPalette(c("white","blue"))(length(unique(as.integer(betweenness(bara2,normalized = TRUE)*1000))))
+plot(bara2,vertex.label=NA,vertex.size=degree(bara2)*2, vertex.color= cols[betweenness(bara2,normalized = TRUE)*1000],layout=layout_with_kk(bara2))
+```
+
+
+
+
+
